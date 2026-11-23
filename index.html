@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Oberschule Eberswalde – Weihnachtsmarkt 2026</title>
 <!--
   ============================================================
@@ -309,7 +312,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "23.11.2026, 15:30 Uhr";
+const STAND = "23.11.2026, 15:35 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -465,6 +468,12 @@ document.getElementById("klassen-body").innerHTML = JAHRGAENGE.map(j=>{
   }).join("");
   return `<div class="jahr"><h3>Klassenstufe ${j}</h3><div class="classes">${cards}</div></div>`;
 }).join("");
+
+// Beim erneuten Aufrufen (auch über „Zurück" / aus dem Zwischenspeicher) immer neu laden
+window.addEventListener("pageshow", e=>{
+  const nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  if (e.persisted || (nav && nav.type === "back_forward")) location.reload();
+});
 
 const totop = document.getElementById("totop");
 const toggleTop = ()=>totop.classList.toggle("show", window.scrollY>300);
