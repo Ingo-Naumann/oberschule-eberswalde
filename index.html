@@ -312,7 +312,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "23.11.2026, 19:16 Uhr";
+const STAND = "23.11.2026, 19:21 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -324,6 +324,7 @@ const KINDER = 320;   // Anzahl Kinder an der Schule
    abgabe   = Abgabetermin (Standard: 21.12.; Kuchen 22.12.; null = entfällt)
    ANNAHMEN: Die Richtwerte sind Schätzungen und bitte anpassen! */
 const BEDARF = [
+  { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
   { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
   { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
@@ -333,7 +334,6 @@ const BEDARF = [
   { key:"Waffelteig",        einheit:"Liter|Liter",       soll:30 },
   { key:"Milch",             einheit:"Liter|Liter",       soll:16, regel:"für Kakao" },
   { key:"Kakaopulver",       einheit:"Packung 400/500g|Packungen 400/500g", soll:2 },
-  { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
   { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
   { key:"Pappteller",        einheit:"Stück|Stück",       soll:350 },
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
