@@ -216,7 +216,6 @@
     .jahr{margin-top:12px}
     .classes{gap:8px}
     .stat .n{line-height:1.05}
-    .stat:last-child{grid-column:1/-1}
     p.lead{line-height:1.4}
     .event{gap:8px}
     .btn{display:block;text-align:center;padding:13px 16px;margin:8px 0 0;font-size:16px}
@@ -240,7 +239,7 @@
     <a href="#uebersicht">Übersicht</a>
     <a href="#bedarf">Was wird gebraucht?</a>
     <a href="#klassen">Zusagen je Klasse</a>
-    <a href="#kontakt">Mitmachen &amp; Kontakt</a>
+    <a href="#kontakt">Rückmeldung geben</a>
   </nav>
 
   <main>
@@ -249,17 +248,17 @@
       <div class="event">
         <div><b>Dienstag, 22.12.2026</b><br><span class="muted">innerhalb der regulären Schulzeit</span></div>
         <div><b>8:00 – 13:00 Uhr</b><br><span class="muted">für alle Schülerinnen und Schüler der Klassen 7 bis 10</span></div>
-        <div><b>Rückmeldung bis Mi., 25.11.2026</b><br><span class="muted">bei Ingo Naumann</span></div>
+        <div><b>Rückmeldung bis Fr., 27.11.2026</b><br><span class="muted">bei Ingo Naumann (0172 7825933)</span></div>
         <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen, Schokofrüchte und Waffelbecher:</b> direkt am 22.12.2026 · <b>alles andere:</b> einen Tag vorher, am 21.12.2026</span></div>
       </div>
-      <p class="lead">Die Kinder sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Speisen erhalten. Dafür bitten wir alle Klassen um Spenden. Außerdem werden Helferinnen und Helfer für Stände und Stationen gesucht. Hier sehen Sie, was insgesamt gebraucht wird und was die Klassen bereits zugesagt haben.</p>
+      <p class="lead">Die Kinder unserer Schule sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Getränken und Speisen erhalten. Dafür bitten wir alle Klassen um entsprechende Beiträge. Außerdem werden Eltern gesucht, die Aktivitäten an verschiedenen Stationen/Ständen anbieten. Hier sehen Sie, was insgesamt gebraucht wird und was aus den Klassen bereits zugesagt wurde:</p>
 
       <div class="stats" id="stats"></div>
     </section>
 
     <section id="bedarf">
       <h2>Was wird insgesamt gebraucht?</h2>
-      <p class="muted" style="margin:0">Benötigt = Gesamtbedarf für unsere 312 Kinder (Richtwerte), Zugesagt = bisher von den Klassen angeboten.</p>
+      <p class="muted" style="margin:0">Benötigt = Gesamtbedarf für unsere 320 Kinder (Richtwerte), Zugesagt = bisher aus den Klassen angeboten.</p>
       <div class="tablewrap">
         <table>
           <thead>
@@ -283,12 +282,12 @@
     </section>
 
     <section id="kontakt">
-      <h2>Mitmachen &amp; Kontakt</h2>
+      <h2>Rückmeldung geben</h2>
       <div class="contact">
         <p style="margin-top:0">Sie können etwas beisteuern, einen Stand betreuen oder ein Angebot übernehmen? Auch kleine Zeitfenster (z. B. eine Stunde) helfen sehr. Auch Großeltern sind herzlich willkommen!</p>
         <p style="margin-bottom:0"><b>Ingo Naumann</b></p>
         <a class="btn" href="tel:+491727825933">Anrufen: 0172 7825933</a>
-        <a class="btn" href="mailto:ingo.naumann@gmx.com?subject=Weihnachtsmarkt%202026">E-Mail schreiben</a>
+        <a class="btn" href="https://wa.me/491727825933" target="_blank" rel="noopener">Per WhatsApp schreiben</a>
       </div>
     </section>
   </main>
@@ -310,9 +309,9 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "23.11.2026, 13:53 Uhr";
+const STAND = "23.11.2026, 15:30 Uhr";
 
-const KINDER = 312;   // Anzahl Kinder an der Schule
+const KINDER = 320;   // Anzahl Kinder an der Schule
 
 /* BEDARF: Was wird gebraucht?
    key      = Kurzname, wird in den Zusagen verwendet
@@ -322,18 +321,20 @@ const KINDER = 312;   // Anzahl Kinder an der Schule
    abgabe   = Abgabetermin (Standard: 21.12.; Kuchen 22.12.; null = entfällt)
    ANNAHMEN: Die Richtwerte sind Schätzungen und bitte anpassen! */
 const BEDARF = [
-  { key:"Bratwürste",        einheit:"Stück|Stück",       proKind:1,    regel:"1 pro Kind" },
-  { key:"Ketchup",           einheit:"Flasche|Flaschen",  soll:5 },
-  { key:"Senf",              einheit:"Flasche|Flaschen",  soll:5 },
-  { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:20, abgabe:"22.12." },
-  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  proKind:0.15, regel:"ca. 0,15 l pro Kind (1-l-Flaschen)" },
-  { key:"Waffelteig",        einheit:"Liter|Liter",       proKind:0.1,  regel:"1 Waffel pro Kind, ca. 1 l je 10 Waffeln" },
-  { key:"Milch",             einheit:"Liter|Liter",       proKind:0.1,  regel:"für Kakao, ca. 0,1 l pro Kind" },
-  { key:"Kakaopulver",       einheit:"Packung|Packungen", soll:4,      regel:"für ca. 30 l Kakao" },
-  { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", proKind:0.1, regel:"2 Stück pro Kind, ca. 20 Stück je Dose" },
+  { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
+  { key:"Bratwürste (Huhn)",  einheit:"Stück|Stück",       soll:160 },
+  { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
+  { key:"Senf",              einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
+  { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:15, abgabe:"22.12." },
+  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
+  { key:"Waffelteig",        einheit:"Liter|Liter",       soll:30 },
+  { key:"Milch",             einheit:"Liter|Liter",       soll:16, regel:"für Kakao" },
+  { key:"Kakaopulver",       einheit:"Packung 400/500g|Packungen 400/500g", soll:2 },
+  { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
   { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
   { key:"Pappteller",        einheit:"Stück|Stück",       soll:350 },
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
+  { key:"Betreuung Stationen/Stände", einheit:"Eltern|Eltern", mal:true, soll:4, abgabe:null },
   { key:"Betreuung Bastelstation", einheit:"Eltern|Eltern", mal:true, soll:3, abgabe:null },
   { key:"Betreuung Kuchenstand", einheit:"Eltern|Eltern", mal:true, soll:1, abgabe:null },
   { key:"Glühweinkocher",    einheit:"Gerät|Geräte",      soll:1 },
@@ -349,25 +350,24 @@ BEDARF.forEach(b=>{ if(b.soll===undefined) b.soll = Math.ceil(KINDER*b.proKind -
    menge  = Zahl, oder null wenn keine Menge genannt wurde
    notiz  = optionaler Zusatz (z. B. "3–4 Flaschen") */
 const ZUSAGEN = [
-  { klasse:"",    key:"Betreuung Kuchenstand",  menge:1, notiz:"bereits besetzt" },   // Klasse nicht angegeben
   { klasse:"7a",  key:"Waffelbecher", menge:null },
   { klasse:"7a",  key:"Zuckerstangen",          menge:null },
   { klasse:"7a",  key:"Betreuung Bastelstation",  menge:1 },
 
   { klasse:"7b",  key:"Ketchup",                menge:1 },
   { klasse:"7b",  key:"Senf",                   menge:1 },
-  { klasse:"7b",  key:"Bratwürste",             menge:20 },
+  { klasse:"7b",  key:"Bratwürste (Schwein)",   menge:20 },
 
   { klasse:"7c",  key:"Kuchen",                 menge:1 },
-  { klasse:"7c",  key:"Kinderpunsch",           menge:3, notiz:"3–4 Flaschen zugesagt" },
+  { klasse:"7c",  key:"Kinderpunsch",           menge:3 },
 
   { klasse:"8b",  key:"Kuchen",                 menge:2 },
   { klasse:"8b",  key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"8b",  key:"Glühweinkocher",         menge:1 },
 
-  { klasse:"8c",  key:"Bratwürste",             menge:20 },
+  { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:20 },
   { klasse:"8c",  key:"Kuchen",                 menge:1 },
-  { klasse:"8c",  key:"Plätzchen",              menge:null },
+  { klasse:"8c",  key:"Plätzchen",              menge:null, stumm:true },
 
   { klasse:"9a",  key:"Kuchen",                 menge:3 },
   { klasse:"9b",  key:"Kuchen",                 menge:3 },
@@ -375,11 +375,13 @@ const ZUSAGEN = [
   { klasse:"10a", key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"10a", key:"Kuchen",                 menge:1 },
   { klasse:"10a", key:"Kinderpunsch",           menge:3 },
+  { klasse:"10a", key:"Betreuung Kuchenstand",  menge:1 },
 
   { klasse:"10b", key:"Kuchen",                 menge:3 },
   { klasse:"10b", key:"Kinderpunsch",           menge:null },
-  { klasse:"10b", key:"Schokofrüchte",          menge:null },
-  { klasse:"10b", key:"Pappbecher",             menge:null, notiz:"kleine Pappteller/Becher" },
+  { klasse:"10b", key:"Waffelteig",             menge:30 },
+  { klasse:"10b", key:"Schokofrüchte",          menge:null, stumm:true },
+  { klasse:"10b", key:"Pappbecher",             menge:null, anzeige:"Pappbecher/-teller", auch:["Pappteller"] },
 ];
 
 /* =====================================================================
@@ -393,7 +395,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&
 
 // Je Posten summieren
 const rows = BEDARF.map(b=>{
-  const z = ZUSAGEN.filter(x=>x.key===b.key);
+  const z = ZUSAGEN.filter(x=>x.key===b.key || (x.auch||[]).includes(b.key));
   const summe = z.reduce((s,x)=>s+(x.menge||0),0);
   const ohneMenge = z.filter(x=>x.menge==null).length;
   return {...b, z, summe, ohneMenge, klassen:[...new Set(z.map(x=>x.klasse))]};
@@ -411,7 +413,6 @@ document.getElementById("stats").innerHTML = `
   <div class="stat"><div class="n">${klassenMitZusage} von ${alleKlassen}</div><div class="l">Klassen haben schon etwas zugesagt</div></div>
   <div class="stat"><div class="n">${gedeckt} von ${mitSoll.length}</div><div class="l">Posten vollständig gedeckt</div></div>
   <div class="stat"><div class="n">${pct} %</div><div class="l">des Gesamtbedarfs durch Zusagen abgedeckt</div></div>
-  <div class="stat"><div class="n">${ZUSAGEN.length}</div><div class="l">Zusagen insgesamt</div></div>
   <div class="stat"><div class="n">${KINDER}</div><div class="l">Kinder an unserer Schule</div></div>`;
 
 // Bedarf-Tabelle
@@ -422,10 +423,10 @@ document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
   if(r.soll==null){
     const t = r.z.length
       ? `<span class="tag part">${r.z.length} Zusage${r.z.length>1?"n":""}</span>`
-      : `<span class="tag">freiwillig</span>`;
-    return `<tr><td class="item">${esc(r.key)}${sub}</td><td class="num" data-label="Benötigt">kein fester Bedarf</td>
-      <td class="num" data-label="Zugesagt">${r.summe?fmt(r.summe)+eu(r.summe):(r.z.length?"zugesagt":"0")}</td><td class="num hide-m">–</td>
-      <td class="st">${t}</td></tr>`;
+      : "";
+    return `<tr><td class="item">${esc(r.key)}${sub}</td><td class="num" data-label="Benötigt">keine Vorgabe</td>
+      <td class="num${r.summe?"":" hide-m"}" data-label="Zugesagt">${r.summe?fmt(r.summe)+eu(r.summe):""}</td><td class="num hide-m"></td>
+      <td class="st${t?"":" hide-m"}">${t}</td></tr>`;
   }
   const offen = Math.max(r.soll-r.summe,0);
   const p = Math.min(100,Math.round(r.summe/r.soll*100));
@@ -457,8 +458,8 @@ document.getElementById("klassen-body").innerHTML = JAHRGAENGE.map(j=>{
     const li = z.map(x=>{
       const bed = BEDARF.find(r=>r.key===x.key)||{};
       const mm = x.menge!=null ? `<b>${fmt(x.menge)}×</b> ` : "";
-      const n = x.notiz ? ` <em>(${esc(x.notiz)})</em>` : (x.menge==null?` <em>(Menge offen)</em>`:"");
-      return `<li>${mm}${esc(x.key)}${n}</li>`;
+      const n = x.notiz ? ` <em>(${esc(x.notiz)})</em>` : (x.menge==null&&!x.stumm?` <em>(Menge offen)</em>`:"");
+      return `<li>${mm}${esc(x.anzeige||x.key)}${n}</li>`;
     }).join("");
     return `<div class="card has"><h4>${k}</h4><ul>${li}</ul></div>`;
   }).join("");
