@@ -107,6 +107,7 @@
     background:var(--green-light);border-bottom:2px solid var(--green);
   }
   td.num,th.num{text-align:right;white-space:nowrap}
+  td.num.offen{color:#c62828;font-weight:600}
   td.num small{display:block;font-weight:400;color:#657065;font-size:12px;white-space:normal}
   td.item{font-weight:600;color:var(--green-dark)}
   td.item small{display:block;font-weight:400;color:#657065;font-size:12px}
@@ -312,7 +313,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "23.11.2026, 22:02 Uhr";
+const STAND = "23.11.2026, 22:35 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -327,7 +328,7 @@ const BEDARF = [
   { key:"Betreuung Stationen/Stände", einheit:"Eltern|Eltern", mal:true, soll:4, abgabe:null },
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
   { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
-  { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160, extra:"+ 6 Abpackungen Bratwürste" },
+  { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160, extra:"+ 2 Abpackungen Bratwürste" },
   { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160, extra:"+ 3 Abpackungen Bratwürste" },
   { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
@@ -360,7 +361,7 @@ const ZUSAGEN = [
   { klasse:"7a",  key:"Senf",                   menge:1 },
   { klasse:"7a",  key:"Bratwürste (Geflügel)",   menge:10 },
   { klasse:"7a",  key:"Bratwürste (Schwein)",   menge:10 },
-  { klasse:"7a",  key:"Kinderpunsch",           menge:null },
+  { klasse:"7a",  key:"Kinderpunsch",           menge:5 },
 
   { klasse:"7b",  key:"Ketchup",                menge:1 },
   { klasse:"7b",  key:"Senf",                   menge:1 },
@@ -373,16 +374,17 @@ const ZUSAGEN = [
   { klasse:"7c",  key:"Kinderpunsch",           menge:3 },
 
   { klasse:"8a",  key:"Pappteller",             menge:100 },
+  { klasse:"8a",  key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
 
   { klasse:"8b",  key:"Kuchen",                 menge:2 },
   { klasse:"8b",  key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"8b",  key:"Glühweinkocher",         menge:1 },
-  { klasse:"8b",  key:"Bratwürste (Schwein)",   menge:50 },
+  { klasse:"8b",  key:"Bratwürste (Schwein)",   menge:74 },   // 50 + 24 (4 Abpackungen)
   { klasse:"8b",  key:"Ketchup",                menge:2 },
   { klasse:"8b",  key:"Senf",                   menge:2 },
-  { klasse:"8b",  key:"Bratwürste (Schwein)",   menge:null, stumm:true, anzeige:"4 Abpackungen Bratwürste (Schwein)" },
   { klasse:"8b",  key:"Kinderpunsch",           menge:2 },
   { klasse:"8b",  key:"Plastikbecher",          menge:null },
+  { klasse:"8b",  key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
 
   { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:20 },
   { klasse:"8c",  key:"Kuchen",                 menge:1 },
@@ -472,7 +474,7 @@ document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
     <td class="item">${esc(r.key)}${sub}</td>
     <td class="num" data-label="Benötigt">${r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
     <td class="num" data-label="Zugesagt">${fmt(r.summe)}${extra}</td>
-    <td class="num" data-label="Noch offen">${fmt(offen)}</td>
+    <td class="num${offen>0?" offen":""}" data-label="Noch offen">${fmt(offen)}</td>
     <td class="st"><div class="bar ${p>=100?"full":""}" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100" aria-label="${esc(r.key)}"><i style="width:${p}%"></i></div>
         <div style="margin-top:4px">${tag} <span class="muted">${p} %</span></div></td>
   </tr>`;
