@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oberschule Eberswalde – Weihnachtsmarkt 2026</title>
+<!--
+  ============================================================
+  PFLEGE DER DATEN: Alles Wichtige steht im Block "DATEN" im
+  Script weiter unten.
+   - BEDARF: was gebraucht wird und wie viel (soll). ACHTUNG: Die
+     Soll-Mengen sind Annahmen und bitte anzupassen!
+   - ZUSAGEN: wer (Klasse) was zugesagt hat. menge: null = Menge
+     noch offen / nicht genannt.
+  ============================================================
+-->
+<style>
+  :root{
+    --bg:#e5cfba;
+    --text:#272723;
+    --green-dark:#344c35;
+    --green:#4e8535;
+    --green-mid:#638653;
+    --green-light:#edf3e9;
+    --green-line:#dce7d7;
+    --brown:#9a6939;
+    --tan:#c99f75;
+    --white:#fff;
+    --warn:#b5502f;
+    --radius:9px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Delicious","Trebuchet MS",Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.5;color:var(--text);
+    background:
+      linear-gradient(180deg,rgba(78,133,53,.18) 0,rgba(229,207,186,0) 320px),
+      var(--bg);
+    min-height:100vh;
+  }
+  a{color:var(--brown);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ---------- Kopf ---------- */
+  header.site{
+    max-width:1100px;margin:0 auto;padding:32px 16px 26px;
+  }
+  .logo{
+    display:inline-block;background:var(--white);
+    border:6px solid var(--green);padding:10px 22px 8px;
+    color:var(--green);text-transform:uppercase;font-weight:700;
+    letter-spacing:.5px;line-height:1.08;font-size:clamp(26px,5vw,44px);
+  }
+  .logo small{display:block;font-size:.42em;letter-spacing:2px;color:var(--green-dark);margin-top:6px;font-weight:600}
+
+  /* ---------- Layout ---------- */
+  .wrap{
+    max-width:1100px;margin:0 auto;padding:0 16px 40px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .sidenav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .sidenav a{
+    display:block;padding:12px 14px;background:rgba(255,255,255,.72);
+    border-left:6px solid var(--green);color:var(--brown);
+    font-size:15px;
+  }
+  .sidenav a:hover{background:var(--white);text-decoration:none}
+
+  main{
+    background:var(--white);border-radius:var(--radius);
+    border-top:4px solid var(--green);
+    padding:26px clamp(16px,3vw,34px) 34px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+  }
+  h2{color:var(--green-dark);font-size:22px;font-weight:600;margin:34px 0 6px}
+  #uebersicht h2{margin-top:0}
+  h3{color:var(--green-dark);font-size:17px;margin:0 0 6px}
+  p.lead{margin:0 0 16px}
+  .muted{color:#657065;font-size:14px}
+
+  /* ---------- Termin-Block ---------- */
+  .event{
+    display:flex;flex-wrap:wrap;gap:8px 28px;align-items:center;justify-content:space-between;
+    background:var(--green-light);border:1px solid var(--green-line);
+    border-radius:var(--radius);padding:16px 20px;margin-bottom:22px;
+  }
+  .event b{color:var(--green-dark);font-size:18px}
+  .event .muted b{font-size:inherit}
+
+  /* ---------- Kennzahlen ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .stat{background:var(--green-light);border:1px solid var(--green-line);border-radius:var(--radius);padding:14px 16px}
+  .stat .n{font-size:30px;font-weight:700;color:var(--green);line-height:1.1}
+  .stat .l{font-size:13px;color:var(--green-dark)}
+
+  /* ---------- Bedarf-Tabelle ---------- */
+  .tablewrap{overflow-x:auto;margin-top:10px}
+  table{width:100%;border-collapse:collapse;min-width:560px}
+  th,td{padding:11px 10px;text-align:left;border-bottom:1px solid var(--green-line);vertical-align:middle}
+  th{
+    font-size:13px;color:var(--green-dark);font-weight:600;
+    background:var(--green-light);border-bottom:2px solid var(--green);
+  }
+  td.num,th.num{text-align:right;white-space:nowrap}
+  td.num small{display:block;font-weight:400;color:#657065;font-size:12px;white-space:normal}
+  td.item{font-weight:600;color:var(--green-dark)}
+  td.item small{display:block;font-weight:400;color:#657065;font-size:12px}
+  .bar{
+    height:12px;background:var(--green-light);border:1px solid var(--green-line);
+    border-radius:7px;overflow:hidden;min-width:110px;
+  }
+  .bar > i{display:block;height:100%;background:var(--green);border-radius:7px 0 0 7px}
+  .bar.full > i{background:var(--green-dark)}
+  .tag{
+    display:inline-block;font-size:12px;padding:2px 9px;border-radius:20px;
+    border:1px solid var(--green-line);background:var(--green-light);color:var(--green-dark);white-space:nowrap;
+  }
+  .tag.open{background:#fbeee8;border-color:#efcfc2;color:var(--warn)}
+  .tag.done{background:var(--green);border-color:var(--green);color:#fff}
+  .tag.part{background:#fdf3e3;border-color:#ecd5ad;color:#8a5a12}
+
+  /* ---------- Klassen ---------- */
+  .jahr{margin-top:18px}
+  .jahr > h3{
+    font-size:16px;border-left:6px solid var(--green);padding:2px 0 2px 10px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;
+  }
+  .jahr > h3 span{font-weight:400;color:#657065;font-size:13px}
+  .classes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .card{
+    background:var(--white);border:1px solid var(--green-line);border-radius:var(--radius);
+    padding:12px 14px 14px;min-height:96px;
+  }
+  .card.has{border-top:4px solid var(--green);background:linear-gradient(var(--green-light),#fff 60px)}
+  .card.none{background:#faf8f5;border-style:dashed;border-color:#d8c8b6}
+  .card h4{margin:0 0 6px;font-size:18px;color:var(--green-dark);display:flex;justify-content:space-between;align-items:baseline}
+  .card h4 span{font-size:12px;font-weight:400;color:#657065}
+  .card ul{margin:0;padding-left:18px;font-size:14px}
+  .card li{margin:2px 0}
+  .card li em{color:#657065;font-style:normal;font-size:12px}
+  .card .empty{font-size:14px;color:var(--warn)}
+
+  /* ---------- Hinweis / Kontakt ---------- */
+  .btn{
+    display:inline-block;background:var(--tan);color:var(--white);
+    padding:9px 18px;border-radius:2px;font-size:15px;margin:4px 6px 0 0;
+  }
+  .btn:hover{background:var(--brown);text-decoration:none}
+  .contact{background:var(--green-light);border:1px solid var(--green-line);border-radius:var(--radius);padding:16px 20px}
+
+  footer{
+    max-width:1100px;margin:0 auto;padding:0 16px 30px;
+    font-size:13px;color:var(--green-dark);
+  }
+  footer .in{background:rgba(255,255,255,.8);border-radius:var(--radius);padding:14px 20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px}
+
+
+  /* ---------- Nach-oben-Button ---------- */
+  .totop{
+    position:fixed;right:16px;bottom:16px;z-index:50;
+    width:52px;height:52px;border-radius:50%;border:0;
+    background:var(--green);color:#fff;cursor:pointer;
+    box-shadow:0 3px 10px rgba(0,0,0,.3);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transform:translateY(10px);
+    transition:opacity .2s,transform .2s,visibility .2s;
+  }
+  .totop.show{opacity:1;visibility:visible;transform:none}
+  .totop:hover,.totop:focus-visible{background:var(--green-dark)}
+  .totop svg{width:24px;height:24px}
+
+  /* ---------- Responsiv ---------- */
+  @media (max-width:860px){
+    .sidenav{grid-template-columns:1fr 1fr}
+    .classes{grid-template-columns:1fr 1fr}
+  }
+
+  /* ---------- Handy: Tabelle als Karten ---------- */
+  @media (max-width:700px){
+    body{font-size:16px}
+    header.site{padding:18px 12px 16px}
+    .logo{border-width:5px;padding:8px 14px 6px;font-size:clamp(19px,5.6vw,32px)}
+    .wrap{padding:0 12px 28px;gap:12px}
+    .classes{grid-template-columns:1fr}
+    .sidenav a{padding:11px 10px;font-size:14px;line-height:1.25;border-left-width:4px}
+    main{padding:18px 14px 24px}
+    h2{font-size:20px;margin-top:28px}
+    .event{padding:14px;gap:12px}
+    .event b{font-size:17px}
+    .stats{grid-template-columns:1fr 1fr;gap:8px}
+    .stat{padding:9px 12px}
+    .stat .n{font-size:24px}
+    .tablewrap{overflow:visible}
+    table,tbody,tr,td{display:block;width:100%;min-width:0}
+    thead{display:none}
+    tr{display:grid;grid-template-columns:repeat(3,1fr);column-gap:8px;border:1px solid var(--green-line);border-radius:var(--radius);padding:9px 12px 10px;margin-bottom:8px;background:#fff}
+    td{border:0;padding:0;line-height:1.3}
+    td.item{grid-column:1/-1;font-size:16px;padding-bottom:5px}
+    td.item small{margin-top:1px;line-height:1.25}
+    td.num{display:block;text-align:left;white-space:normal;font-size:15px}
+    td.num::before{content:attr(data-label);display:block;color:#657065;font-size:12px;font-weight:400}
+    td.num small{display:block;margin-top:1px;line-height:1.2}
+    td.hide-m{display:none}
+    td.st{grid-column:1/-1;padding-top:7px}
+    td.st > div:last-child{margin-top:3px !important}
+    .bar{min-width:0;height:14px}
+    .classes{grid-template-columns:1fr}
+    .card h4{font-size:18px}
+    .card{padding:9px 12px 10px;min-height:0}
+    .card h4{margin-bottom:3px}
+    .card ul{font-size:15px;line-height:1.3}
+    .card li{margin:1px 0}
+    .card .empty{line-height:1.3}
+    .jahr{margin-top:12px}
+    .classes{gap:8px}
+    .stat .n{line-height:1.05}
+    .stat:last-child{grid-column:1/-1}
+    p.lead{line-height:1.4}
+    .event{gap:8px}
+    .btn{display:block;text-align:center;padding:13px 16px;margin:8px 0 0;font-size:16px}
+    .contact{padding:14px}
+    footer{padding:0 12px 24px}
+  }
+  @media print{
+    body{background:#fff}.sidenav,.totop{display:none}
+    .wrap{display:block}main{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="logo">Oberschule Eberswalde<br>Weihnachtsmarkt 2026</div>
+</header>
+
+<div class="wrap">
+  <nav class="sidenav" aria-label="Navigation">
+    <a href="#uebersicht">Übersicht</a>
+    <a href="#bedarf">Was wird gebraucht?</a>
+    <a href="#klassen">Zusagen je Klasse</a>
+    <a href="#kontakt">Mitmachen &amp; Kontakt</a>
+  </nav>
+
+  <main>
+    <section id="uebersicht">
+      <h2>Weihnachtsmarkt am 22.12.2026</h2>
+      <div class="event">
+        <div><b>Dienstag, 22.12.2026</b><br><span class="muted">innerhalb der regulären Schulzeit</span></div>
+        <div><b>8:00 – 13:00 Uhr</b><br><span class="muted">für alle Schülerinnen und Schüler der Klassen 7 bis 10</span></div>
+        <div><b>Rückmeldung bis Mi., 25.11.2026</b><br><span class="muted">bei Ingo Naumann</span></div>
+        <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen, Schokofrüchte und Waffelbecher:</b> direkt am 22.12.2026 · <b>alles andere:</b> einen Tag vorher, am 21.12.2026</span></div>
+      </div>
+      <p class="lead">Die Kinder sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Speisen erhalten. Dafür bitten wir alle Klassen um Spenden. Außerdem werden Helferinnen und Helfer für Stände und Stationen gesucht. Hier sehen Sie, was insgesamt gebraucht wird und was die Klassen bereits zugesagt haben.</p>
+
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section id="bedarf">
+      <h2>Was wird insgesamt gebraucht?</h2>
+      <p class="muted" style="margin:0">Benötigt = Gesamtbedarf für unsere 312 Kinder (Richtwerte), Zugesagt = bisher von den Klassen angeboten.</p>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Was</th>
+              <th class="num">Benötigt</th>
+              <th class="num">Zugesagt</th>
+              <th class="num">Noch offen</th>
+              <th>Stand</th>
+            </tr>
+          </thead>
+          <tbody id="bedarf-body"></tbody>
+        </table>
+      </div>
+      <p class="muted" id="bedarf-note" style="margin-top:10px"></p>
+    </section>
+
+    <section id="klassen">
+      <h2>Zusagen je Klasse</h2>
+      <div id="klassen-body"></div>
+    </section>
+
+    <section id="kontakt">
+      <h2>Mitmachen &amp; Kontakt</h2>
+      <div class="contact">
+        <p style="margin-top:0">Sie können etwas beisteuern, einen Stand betreuen oder ein Angebot übernehmen? Auch kleine Zeitfenster (z. B. eine Stunde) helfen sehr. Auch Großeltern sind herzlich willkommen!</p>
+        <p style="margin-bottom:0"><b>Ingo Naumann</b></p>
+        <a class="btn" href="tel:+491727825933">Anrufen: 0172 7825933</a>
+        <a class="btn" href="mailto:ingo.naumann@gmx.com?subject=Weihnachtsmarkt%202026">E-Mail schreiben</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="in">
+    <span id="stand"></span>
+  </div>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Nach oben zum Seitenanfang" title="Nach oben">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg>
+</button>
+
+<script>
+/* =====================================================================
+   DATEN – hier pflegen
+   ===================================================================== */
+
+// Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
+const STAND = "23.11.2026, 13:53 Uhr";
+
+const KINDER = 312;   // Anzahl Kinder an der Schule
+
+/* BEDARF: Was wird gebraucht?
+   key      = Kurzname, wird in den Zusagen verwendet
+   proKind  = Richtwert je Kind → Soll = aufgerundet(KINDER × proKind)
+   soll     = alternativ fester Wert (null = kein Zielwert)
+   regel    = Erklärung des Richtwerts (wird angezeigt)
+   abgabe   = Abgabetermin (Standard: 21.12.; Kuchen 22.12.; null = entfällt)
+   ANNAHMEN: Die Richtwerte sind Schätzungen und bitte anpassen! */
+const BEDARF = [
+  { key:"Bratwürste",        einheit:"Stück|Stück",       proKind:1,    regel:"1 pro Kind" },
+  { key:"Ketchup",           einheit:"Flasche|Flaschen",  soll:5 },
+  { key:"Senf",              einheit:"Flasche|Flaschen",  soll:5 },
+  { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:20, abgabe:"22.12." },
+  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  proKind:0.15, regel:"ca. 0,15 l pro Kind (1-l-Flaschen)" },
+  { key:"Waffelteig",        einheit:"Liter|Liter",       proKind:0.1,  regel:"1 Waffel pro Kind, ca. 1 l je 10 Waffeln" },
+  { key:"Milch",             einheit:"Liter|Liter",       proKind:0.1,  regel:"für Kakao, ca. 0,1 l pro Kind" },
+  { key:"Kakaopulver",       einheit:"Packung|Packungen", soll:4,      regel:"für ca. 30 l Kakao" },
+  { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", proKind:0.1, regel:"2 Stück pro Kind, ca. 20 Stück je Dose" },
+  { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
+  { key:"Pappteller",        einheit:"Stück|Stück",       soll:350 },
+  { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
+  { key:"Betreuung Bastelstation", einheit:"Eltern|Eltern", mal:true, soll:3, abgabe:null },
+  { key:"Betreuung Kuchenstand", einheit:"Eltern|Eltern", mal:true, soll:1, abgabe:null },
+  { key:"Glühweinkocher",    einheit:"Gerät|Geräte",      soll:1 },
+  { key:"Schokofrüchte",     einheit:"Portion|Portionen", soll:null, abgabe:"22.12." },
+  { key:"Waffelbecher", einheit:"", soll:null, abgabe:"22.12." },
+  { key:"Zuckerstangen",     einheit:"",                  soll:null },
+];
+BEDARF.forEach(b=>{ if(b.soll===undefined) b.soll = Math.ceil(KINDER*b.proKind - 1e-9); });
+
+
+/* ZUSAGEN: Wer hat was zugesagt?
+   klasse = "7a" … "10c"
+   menge  = Zahl, oder null wenn keine Menge genannt wurde
+   notiz  = optionaler Zusatz (z. B. "3–4 Flaschen") */
+const ZUSAGEN = [
+  { klasse:"",    key:"Betreuung Kuchenstand",  menge:1, notiz:"bereits besetzt" },   // Klasse nicht angegeben
+  { klasse:"7a",  key:"Waffelbecher", menge:null },
+  { klasse:"7a",  key:"Zuckerstangen",          menge:null },
+  { klasse:"7a",  key:"Betreuung Bastelstation",  menge:1 },
+
+  { klasse:"7b",  key:"Ketchup",                menge:1 },
+  { klasse:"7b",  key:"Senf",                   menge:1 },
+  { klasse:"7b",  key:"Bratwürste",             menge:20 },
+
+  { klasse:"7c",  key:"Kuchen",                 menge:1 },
+  { klasse:"7c",  key:"Kinderpunsch",           menge:3, notiz:"3–4 Flaschen zugesagt" },
+
+  { klasse:"8b",  key:"Kuchen",                 menge:2 },
+  { klasse:"8b",  key:"Betreuung Bastelstation",  menge:1 },
+  { klasse:"8b",  key:"Glühweinkocher",         menge:1 },
+
+  { klasse:"8c",  key:"Bratwürste",             menge:20 },
+  { klasse:"8c",  key:"Kuchen",                 menge:1 },
+  { klasse:"8c",  key:"Plätzchen",              menge:null },
+
+  { klasse:"9a",  key:"Kuchen",                 menge:3 },
+  { klasse:"9b",  key:"Kuchen",                 menge:3 },
+
+  { klasse:"10a", key:"Betreuung Bastelstation",  menge:1 },
+  { klasse:"10a", key:"Kuchen",                 menge:1 },
+  { klasse:"10a", key:"Kinderpunsch",           menge:3 },
+
+  { klasse:"10b", key:"Kuchen",                 menge:3 },
+  { klasse:"10b", key:"Kinderpunsch",           menge:null },
+  { klasse:"10b", key:"Schokofrüchte",          menge:null },
+  { klasse:"10b", key:"Pappbecher",             menge:null, notiz:"kleine Pappteller/Becher" },
+];
+
+/* =====================================================================
+   AB HIER NICHTS ÄNDERN
+   ===================================================================== */
+const JAHRGAENGE = [7,8,9,10];
+const BUCHSTABEN = ["a","b","c"];
+const unit = (e,n)=>{if(!e)return '';const p=e.split('|');return n===1?p[0]:(p[1]||p[0])};
+const fmt = n => n.toLocaleString("de-DE");
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// Je Posten summieren
+const rows = BEDARF.map(b=>{
+  const z = ZUSAGEN.filter(x=>x.key===b.key);
+  const summe = z.reduce((s,x)=>s+(x.menge||0),0);
+  const ohneMenge = z.filter(x=>x.menge==null).length;
+  return {...b, z, summe, ohneMenge, klassen:[...new Set(z.map(x=>x.klasse))]};
+});
+
+// Kennzahlen
+const mitSoll = rows.filter(r=>r.soll!=null);
+const gedeckt = mitSoll.filter(r=>r.summe>=r.soll).length;
+const klassenMitZusage = new Set(ZUSAGEN.map(z=>z.klasse).filter(Boolean)).size;
+const alleKlassen = JAHRGAENGE.length*BUCHSTABEN.length;
+const pct = mitSoll.length
+  ? Math.round(mitSoll.reduce((s,r)=>s+Math.min(r.summe,r.soll)/r.soll,0)/mitSoll.length*100) : 0;
+
+document.getElementById("stats").innerHTML = `
+  <div class="stat"><div class="n">${klassenMitZusage} von ${alleKlassen}</div><div class="l">Klassen haben schon etwas zugesagt</div></div>
+  <div class="stat"><div class="n">${gedeckt} von ${mitSoll.length}</div><div class="l">Posten vollständig gedeckt</div></div>
+  <div class="stat"><div class="n">${pct} %</div><div class="l">des Gesamtbedarfs durch Zusagen abgedeckt</div></div>
+  <div class="stat"><div class="n">${ZUSAGEN.length}</div><div class="l">Zusagen insgesamt</div></div>
+  <div class="stat"><div class="n">${KINDER}</div><div class="l">Kinder an unserer Schule</div></div>`;
+
+// Bedarf-Tabelle
+document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
+  const eu = n => r.einheit ? " "+esc(unit(r.einheit,n)) : "";
+  const ab = r.abgabe===null ? "" : `Abgabe: ${r.abgabe||"21.12."}`;
+  const sub = (r.regel||ab) ? `<small>${[r.regel?esc(r.regel):"", ab].filter(Boolean).join(" · ")}</small>` : "";
+  if(r.soll==null){
+    const t = r.z.length
+      ? `<span class="tag part">${r.z.length} Zusage${r.z.length>1?"n":""}</span>`
+      : `<span class="tag">freiwillig</span>`;
+    return `<tr><td class="item">${esc(r.key)}${sub}</td><td class="num" data-label="Benötigt">kein fester Bedarf</td>
+      <td class="num" data-label="Zugesagt">${r.summe?fmt(r.summe)+eu(r.summe):(r.z.length?"zugesagt":"0")}</td><td class="num hide-m">–</td>
+      <td class="st">${t}</td></tr>`;
+  }
+  const offen = Math.max(r.soll-r.summe,0);
+  const p = Math.min(100,Math.round(r.summe/r.soll*100));
+  let tag;
+  if(r.summe>=r.soll) tag = `<span class="tag done">gedeckt</span>`;
+  else if(r.summe>0 || r.ohneMenge) tag = `<span class="tag part">teilweise</span>`;
+  else tag = `<span class="tag open">noch offen</span>`;
+  const extra = r.ohneMenge ? `<small>+ ${r.ohneMenge} Zusage${r.ohneMenge>1?"n":""} ohne Mengenangabe</small>` : "";
+  return `<tr>
+    <td class="item">${esc(r.key)}${sub}</td>
+    <td class="num" data-label="Benötigt">${r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
+    <td class="num" data-label="Zugesagt">${fmt(r.summe)}${extra}</td>
+    <td class="num" data-label="Noch offen">${fmt(offen)}</td>
+    <td class="st"><div class="bar ${p>=100?"full":""}" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100" aria-label="${esc(r.key)}"><i style="width:${p}%"></i></div>
+        <div style="margin-top:4px">${tag} <span class="muted">${p} %</span></div></td>
+  </tr>`;
+}).join("");
+const anyOhne = ZUSAGEN.some(z=>z.menge==null && rows.find(r=>r.key===z.key && r.soll!=null));
+document.getElementById("bedarf-note").textContent = anyOhne
+  ? "Zusagen ohne Mengenangabe sind noch nicht in die Summen eingerechnet."
+  : "";
+
+// Klassen
+document.getElementById("klassen-body").innerHTML = JAHRGAENGE.map(j=>{
+  const cards = BUCHSTABEN.map(b=>{
+    const k = j+b;
+    const z = ZUSAGEN.filter(x=>x.klasse===k);
+    if(!z.length) return `<div class="card none"><h4>${k} <span>noch keine Zusage</span></h4><div class="empty">Noch offen – wir freuen uns über Rückmeldungen!</div></div>`;
+    const li = z.map(x=>{
+      const bed = BEDARF.find(r=>r.key===x.key)||{};
+      const mm = x.menge!=null ? `<b>${fmt(x.menge)}×</b> ` : "";
+      const n = x.notiz ? ` <em>(${esc(x.notiz)})</em>` : (x.menge==null?` <em>(Menge offen)</em>`:"");
+      return `<li>${mm}${esc(x.key)}${n}</li>`;
+    }).join("");
+    return `<div class="card has"><h4>${k}</h4><ul>${li}</ul></div>`;
+  }).join("");
+  return `<div class="jahr"><h3>Klassenstufe ${j}</h3><div class="classes">${cards}</div></div>`;
+}).join("");
+
+const totop = document.getElementById("totop");
+const toggleTop = ()=>totop.classList.toggle("show", window.scrollY>300);
+window.addEventListener("scroll", toggleTop, {passive:true}); toggleTop();
+totop.addEventListener("click", ()=>window.scrollTo({top:0,behavior:"smooth"}));
+
+document.getElementById("stand").textContent = "Stand: "+STAND;
+</script>
+</body>
+</html>
