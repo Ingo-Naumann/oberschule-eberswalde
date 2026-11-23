@@ -252,7 +252,7 @@
         <div><b>Dienstag, 22.12.2026</b><br><span class="muted">innerhalb der regulären Schulzeit</span></div>
         <div><b>8:00 – 13:00 Uhr</b><br><span class="muted">für alle Schülerinnen und Schüler der Klassen 7 bis 10</span></div>
         <div><b>Rückmeldung bis Fr., 27.11.2026</b><br><span class="muted">bei Ingo Naumann (0172 7825933)</span></div>
-        <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen, Schokofrüchte und Waffelbecher:</b> direkt am 22.12.2026 · <b>alles andere:</b> einen Tag vorher, am 21.12.2026</span></div>
+        <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen und Schokofrüchte:</b> direkt am 22.12.2026 · <b>alles andere:</b> einen Tag vorher, am 21.12.2026</span></div>
       </div>
       <p class="lead">Die Kinder unserer Schule sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Getränken und Speisen erhalten. Dafür bitten wir alle Klassen um entsprechende Beiträge. Außerdem werden Eltern gesucht, die Aktivitäten an verschiedenen Stationen/Ständen anbieten. Hier sehen Sie, was insgesamt gebraucht wird und was aus den Klassen bereits zugesagt wurde:</p>
 
@@ -312,7 +312,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "23.11.2026, 19:21 Uhr";
+const STAND = "23.11.2026, 21:46 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -324,25 +324,24 @@ const KINDER = 320;   // Anzahl Kinder an der Schule
    abgabe   = Abgabetermin (Standard: 21.12.; Kuchen 22.12.; null = entfällt)
    ANNAHMEN: Die Richtwerte sind Schätzungen und bitte anpassen! */
 const BEDARF = [
+  { key:"Betreuung Stationen/Stände", einheit:"Eltern|Eltern", mal:true, soll:4, abgabe:null },
+  { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
   { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
   { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
-  { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160 },
+  { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160, extra:"+ 3 Pakete Bratwürste" },
+  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Senf",              einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:15, abgabe:"22.12." },
-  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
   { key:"Waffelteig",        einheit:"Liter|Liter",       soll:30 },
   { key:"Milch",             einheit:"Liter|Liter",       soll:16, regel:"für Kakao" },
   { key:"Kakaopulver",       einheit:"Packung 400/500g|Packungen 400/500g", soll:2 },
   { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
   { key:"Pappteller",        einheit:"Stück|Stück",       soll:350 },
-  { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
-  { key:"Betreuung Stationen/Stände", einheit:"Eltern|Eltern", mal:true, soll:4, abgabe:null },
   { key:"Betreuung Bastelstation", einheit:"Eltern|Eltern", mal:true, soll:3, abgabe:null },
   { key:"Betreuung Kuchenstand", einheit:"Eltern|Eltern", mal:true, soll:1, abgabe:null },
   { key:"Glühweinkocher",    einheit:"Gerät|Geräte",      soll:1 },
   { key:"Schokofrüchte",     einheit:"Portion|Portionen", soll:null, abgabe:"22.12." },
-  { key:"Waffelbecher", einheit:"", soll:null, abgabe:"22.12." },
   { key:"Zuckerstangen",     einheit:"",                  soll:null },
 ];
 BEDARF.forEach(b=>{ if(b.soll===undefined) b.soll = Math.ceil(KINDER*b.proKind - 1e-9); });
@@ -353,14 +352,15 @@ BEDARF.forEach(b=>{ if(b.soll===undefined) b.soll = Math.ceil(KINDER*b.proKind -
    menge  = Zahl, oder null wenn keine Menge genannt wurde
    notiz  = optionaler Zusatz (z. B. "3–4 Flaschen") */
 const ZUSAGEN = [
-  { klasse:"7a",  key:"Waffelbecher", menge:null },
-  { klasse:"7a",  key:"Zuckerstangen",          menge:null },
+  { klasse:"7a",  key:"Kuchen",                 menge:1 },
+  { klasse:"7a",  key:"Zuckerstangen",          menge:null, stumm:true },
   { klasse:"7a",  key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"7a",  key:"Milch",                  menge:4 },
   { klasse:"7a",  key:"Ketchup",                menge:1 },
   { klasse:"7a",  key:"Senf",                   menge:1 },
   { klasse:"7a",  key:"Bratwürste (Geflügel)",   menge:10 },
   { klasse:"7a",  key:"Bratwürste (Schwein)",   menge:10 },
+  { klasse:"7a",  key:"Kinderpunsch",           menge:5 },
 
   { klasse:"7b",  key:"Ketchup",                menge:1 },
   { klasse:"7b",  key:"Senf",                   menge:1 },
@@ -377,12 +377,17 @@ const ZUSAGEN = [
   { klasse:"8b",  key:"Kuchen",                 menge:2 },
   { klasse:"8b",  key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"8b",  key:"Glühweinkocher",         menge:1 },
+  { klasse:"8b",  key:"Bratwürste (Schwein)",   menge:50 },
+  { klasse:"8b",  key:"Ketchup",                menge:2 },
+  { klasse:"8b",  key:"Senf",                   menge:2 },
 
   { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:20 },
   { klasse:"8c",  key:"Kuchen",                 menge:1 },
-  { klasse:"8c",  key:"Plätzchen",              menge:null, stumm:true },
+  { klasse:"8c",  key:"Plätzchen",              menge:null, stumm:true, anzeige:"1× Plätzchen" },
 
   { klasse:"9a",  key:"Kuchen",                 menge:3 },
+  { klasse:"9a",  key:"Bratwürste (Geflügel)",  menge:20 },
+  { klasse:"9a",  key:"Plätzchen",              menge:null, stumm:true, anzeige:"2× Plätzchen", zusagen:2 },
   { klasse:"9b",  key:"Kuchen",                 menge:3 },
   { klasse:"9c",  key:"Pappteller",             menge:350 },
   { klasse:"9c",  key:"Pappbecher",             menge:350 },
@@ -392,6 +397,7 @@ const ZUSAGEN = [
   { klasse:"10a", key:"Kinderpunsch",           menge:3 },
   { klasse:"10a", key:"Betreuung Kuchenstand",  menge:1 },
   { klasse:"10a", key:"Bratwürste (Geflügel)",   menge:null, stumm:true, anzeige:"3 Pakete Bratwürste (Geflügel)" },
+  { klasse:"10a", key:"Bratwürste (Geflügel)",   menge:20 },
 
   { klasse:"10b", key:"Kuchen",                 menge:3 },
   { klasse:"10b", key:"Kinderpunsch",           menge:null },
@@ -402,6 +408,7 @@ const ZUSAGEN = [
   { klasse:"10c", key:"Milch",                  menge:10 },
   { klasse:"10c", key:"Ketchup",                menge:2 },
   { klasse:"10c", key:"Senf",                   menge:2 },
+  { klasse:"10c", key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
 ];
 
 /* =====================================================================
@@ -441,8 +448,9 @@ document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
   const ab = r.abgabe===null ? "" : `Abgabe: ${r.abgabe||"21.12."}`;
   const sub = (r.regel||ab) ? `<small>${[r.regel?esc(r.regel):"", ab].filter(Boolean).join(" · ")}</small>` : "";
   if(r.soll==null){
-    const t = r.z.length
-      ? `<span class="tag part">${r.z.length} Zusage${r.z.length>1?"n":""}</span>`
+    const nz = r.z.reduce((a,x)=>a+(x.zusagen||1),0);
+    const t = nz
+      ? `<span class="tag part">${nz} Zusage${nz>1?"n":""}</span>`
       : "";
     return `<tr><td class="item">${esc(r.key)}${sub}</td><td class="num" data-label="Benötigt">keine Vorgabe</td>
       <td class="num${r.summe?"":" hide-m"}" data-label="Zugesagt">${r.summe?fmt(r.summe)+eu(r.summe):""}</td><td class="num hide-m"></td>
@@ -454,7 +462,7 @@ document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
   if(r.summe>=r.soll) tag = `<span class="tag done">gedeckt</span>`;
   else if(r.summe>0 || r.ohneMenge) tag = `<span class="tag part">teilweise</span>`;
   else tag = `<span class="tag open">noch offen</span>`;
-  const extra = r.ohneMenge ? `<small>+ ${r.ohneMenge} Zusage${r.ohneMenge>1?"n":""} ohne Mengenangabe</small>` : "";
+  const extra = r.extra ? `<small>${esc(r.extra)}</small>` : (r.ohneMenge ? `<small>+ ${r.ohneMenge} Zusage${r.ohneMenge>1?"n":""} ohne Mengenangabe</small>` : "");
   return `<tr>
     <td class="item">${esc(r.key)}${sub}</td>
     <td class="num" data-label="Benötigt">${r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
