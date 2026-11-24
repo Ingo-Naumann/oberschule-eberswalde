@@ -253,7 +253,7 @@
         <div><b>Dienstag, 22.12.2026</b><br><span class="muted">innerhalb der regulären Schulzeit</span></div>
         <div><b>8:00 – 13:00 Uhr</b><br><span class="muted">für alle Schülerinnen und Schüler der Klassen 7 bis 10</span></div>
         <div><b>Rückmeldung bis Fr., 27.11.2026</b><br><span class="muted">bei Ingo Naumann (0172 7825933)</span></div>
-        <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen und Schokofrüchte:</b> direkt am 22.12.2026 · <b>alles andere:</b> einen Tag vorher, am 21.12.2026</span></div>
+        <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen und Schokofrüchte:</b> direkt am 22.12.2026 · <b>alles andere:</b> bis spätestens 21.12.2026</span></div>
       </div>
       <p class="lead">Die Kinder unserer Schule sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Getränken und Speisen erhalten. Dafür bitten wir alle Klassen um entsprechende Beiträge. Außerdem werden Eltern und Großeltern gesucht, die Aktivitäten an verschiedenen Stationen/Ständen anbieten. Hier sehen Sie, was insgesamt gebraucht wird und was aus den Klassen bereits zugesagt wurde:</p>
 
@@ -313,7 +313,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "24.11.2026, 11:37 Uhr";
+const STAND = "24.11.2026, 19:23 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -329,14 +329,13 @@ const BEDARF = [
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
   { key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
   { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
-  { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160, extra:"+ 3 Abpackungen Bratwürste" },
-  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
+  { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160 },
   { key:"Servietten",        einheit:"Stück|Stück",       soll:350 },
-  { key:"Grillbriketts",     einheit:"kg|kg",             soll:15 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Senf",              einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:15, abgabe:"22.12." },
   { key:"Waffelteig",        einheit:"Liter|Liter",       soll:30 },
+  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
   { key:"Milch",             einheit:"Liter|Liter",       soll:16, regel:"für Kakao" },
   { key:"Kakaopulver",       einheit:"Packung 400/500g|Packungen 400/500g", soll:2 },
   { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
@@ -356,15 +355,17 @@ BEDARF.forEach(b=>{ if(b.soll===undefined) b.soll = Math.ceil(KINDER*b.proKind -
    notiz  = optionaler Zusatz (z. B. "3–4 Flaschen") */
 const ZUSAGEN = [
   { klasse:"7a",  key:"Kuchen",                 menge:1 },
-  { klasse:"7a",  key:"Zuckerstangen",          menge:null, stumm:true },
+  { klasse:"7a",  key:"Zuckerstangen",          menge:null, stumm:true, anzeige:"2× Zuckerstangen" },
   { klasse:"7a",  key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"7a",  key:"Milch",                  menge:4 },
   { klasse:"7a",  key:"Ketchup",                menge:1 },
   { klasse:"7a",  key:"Senf",                   menge:1 },
-  { klasse:"7a",  key:"Bratwürste (Geflügel)",   menge:35 },   // 10 + 25 (5 Abpackungen)
+  { klasse:"7a",  key:"Bratwürste (Geflügel)",   menge:67 },   // 10 + 25 (5 Abpackungen) + 32
   { klasse:"7a",  key:"Bratwürste (Schwein)",   menge:10 },
-  { klasse:"7a",  key:"Kinderpunsch",           menge:5 },
-  { klasse:"7a",  key:"Servietten",             menge:150 },
+  { klasse:"7a",  key:"Kinderpunsch",           menge:10 },   // 5 + 5
+  { klasse:"7a",  key:"Servietten",             menge:235 },
+  { klasse:"7a",  key:"Pappbecher",             menge:120 },
+  { klasse:"7a",  key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
 
   { klasse:"7b",  key:"Ketchup",                menge:1 },
   { klasse:"7b",  key:"Senf",                   menge:1 },
@@ -383,11 +384,13 @@ const ZUSAGEN = [
   { klasse:"8b",  key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"8b",  key:"Glühweinkocher",         menge:1 },
   { klasse:"8b",  key:"Bratwürste (Schwein)",   menge:74 },   // 50 + 24 (4 Abpackungen)
+  { klasse:"8b",  key:"Bratwürste (Geflügel)",  menge:16 },   // 8 + 8
   { klasse:"8b",  key:"Ketchup",                menge:2 },
   { klasse:"8b",  key:"Senf",                   menge:2 },
   { klasse:"8b",  key:"Kinderpunsch",           menge:2 },
   { klasse:"8b",  key:"Plastikbecher",          menge:null },
   { klasse:"8b",  key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
+  { klasse:"8b",  key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"1× Lebkuchen" },
 
   { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:32 },   // 20 + 12 (2 Abpackungen)
   { klasse:"8c",  key:"Kuchen",                 menge:1 },
@@ -395,7 +398,7 @@ const ZUSAGEN = [
   { klasse:"8c",  key:"Kinderpunsch",           menge:2 },
 
   { klasse:"9a",  key:"Kuchen",                 menge:3 },
-  { klasse:"9a",  key:"Bratwürste (Geflügel)",  menge:20 },
+  { klasse:"9a",  key:"Bratwürste (Geflügel)",  menge:12 },
   { klasse:"9a",  key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"2× Plätzchen", zusagen:2 },
   { klasse:"9b",  key:"Kuchen",                 menge:3 },
   { klasse:"9c",  key:"Pappteller",             menge:350 },
@@ -405,8 +408,7 @@ const ZUSAGEN = [
   { klasse:"10a", key:"Kuchen",                 menge:1 },
   { klasse:"10a", key:"Kinderpunsch",           menge:3 },
   { klasse:"10a", key:"Betreuung Kuchenstand",  menge:1 },
-  { klasse:"10a", key:"Bratwürste (Geflügel)",   menge:null, stumm:true, anzeige:"3 Abpackungen Bratwürste (Geflügel)" },
-  { klasse:"10a", key:"Bratwürste (Geflügel)",   menge:20 },
+  { klasse:"10a", key:"Bratwürste (Geflügel)",   menge:36 },
 
   { klasse:"10b", key:"Kuchen",                 menge:3 },
   { klasse:"10b", key:"Kinderpunsch",           menge:null },
@@ -497,7 +499,8 @@ document.getElementById("klassen-body").innerHTML = JAHRGAENGE.map(j=>{
       const bed = BEDARF.find(r=>r.key===x.key)||{};
       const mm = x.menge!=null ? `<b>${fmt(x.menge)}×</b> ` : "";
       const n = x.notiz ? ` <em>(${esc(x.notiz)})</em>` : (x.menge==null&&!x.stumm?` <em>(Menge offen)</em>`:"");
-      return `<li>${mm}${esc(x.anzeige||x.key)}${n}</li>`;
+      const name = esc(x.anzeige||x.key).replace(/^(\d+×)\s*/, "<b>$1</b> ");
+      return `<li>${mm}${name}${n}</li>`;
     }).join("");
     return `<div class="card has"><h4>${k}</h4><ul>${li}</ul></div>`;
   }).join("");
