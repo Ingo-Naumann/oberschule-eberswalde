@@ -313,7 +313,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "23.11.2026, 22:35 Uhr";
+const STAND = "24.11.2026, 11:07 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -327,10 +327,11 @@ const KINDER = 320;   // Anzahl Kinder an der Schule
 const BEDARF = [
   { key:"Betreuung Stationen/Stände", einheit:"Eltern|Eltern", mal:true, soll:4, abgabe:null },
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
-  { key:"Plätzchen",         einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
-  { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160, extra:"+ 2 Abpackungen Bratwürste" },
+  { key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
+  { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
   { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160, extra:"+ 3 Abpackungen Bratwürste" },
   { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
+  { key:"Servietten",        einheit:"Stück|Stück",       soll:350 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Senf",              einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:15, abgabe:"22.12." },
@@ -359,9 +360,10 @@ const ZUSAGEN = [
   { klasse:"7a",  key:"Milch",                  menge:4 },
   { klasse:"7a",  key:"Ketchup",                menge:1 },
   { klasse:"7a",  key:"Senf",                   menge:1 },
-  { klasse:"7a",  key:"Bratwürste (Geflügel)",   menge:10 },
+  { klasse:"7a",  key:"Bratwürste (Geflügel)",   menge:35 },   // 10 + 25 (5 Abpackungen)
   { klasse:"7a",  key:"Bratwürste (Schwein)",   menge:10 },
   { klasse:"7a",  key:"Kinderpunsch",           menge:5 },
+  { klasse:"7a",  key:"Servietten",             menge:150 },
 
   { klasse:"7b",  key:"Ketchup",                menge:1 },
   { klasse:"7b",  key:"Senf",                   menge:1 },
@@ -386,15 +388,14 @@ const ZUSAGEN = [
   { klasse:"8b",  key:"Plastikbecher",          menge:null },
   { klasse:"8b",  key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
 
-  { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:20 },
+  { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:32 },   // 20 + 12 (2 Abpackungen)
   { klasse:"8c",  key:"Kuchen",                 menge:1 },
-  { klasse:"8c",  key:"Plätzchen",              menge:null, stumm:true, anzeige:"1× Plätzchen" },
+  { klasse:"8c",  key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"1× Plätzchen" },
   { klasse:"8c",  key:"Kinderpunsch",           menge:2 },
-  { klasse:"8c",  key:"Bratwürste (Schwein)",   menge:null, stumm:true, anzeige:"2 Abpackungen Bratwürste (Schwein)" },
 
   { klasse:"9a",  key:"Kuchen",                 menge:3 },
   { klasse:"9a",  key:"Bratwürste (Geflügel)",  menge:20 },
-  { klasse:"9a",  key:"Plätzchen",              menge:null, stumm:true, anzeige:"2× Plätzchen", zusagen:2 },
+  { klasse:"9a",  key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"2× Plätzchen", zusagen:2 },
   { klasse:"9b",  key:"Kuchen",                 menge:3 },
   { klasse:"9c",  key:"Pappteller",             menge:350 },
   { klasse:"9c",  key:"Pappbecher",             menge:350 },
@@ -412,7 +413,8 @@ const ZUSAGEN = [
   { klasse:"10b", key:"Schokofrüchte",          menge:null, stumm:true },
   { klasse:"10b", key:"Pappbecher",             menge:null, anzeige:"Pappbecher/-teller", auch:["Pappteller"] },
 
-  { klasse:"10c", key:"Milch",                  menge:10 },
+  { klasse:"10c", key:"Kinderpunsch",           menge:5 },
+  { klasse:"10c", key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"3× Lebkuchen", zusagen:3 },
   { klasse:"10c", key:"Ketchup",                menge:2 },
   { klasse:"10c", key:"Senf",                   menge:2 },
   { klasse:"10c", key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
@@ -472,9 +474,9 @@ document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
   const extra = r.extra ? `<small>${esc(r.extra)}</small>` : (r.ohneMenge ? `<small>+ ${r.ohneMenge} Zusage${r.ohneMenge>1?"n":""} ohne Mengenangabe</small>` : "");
   return `<tr>
     <td class="item">${esc(r.key)}${sub}</td>
-    <td class="num" data-label="Benötigt">${r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
+    <td class="num" data-label="Benötigt">${r.sollText ? esc(r.sollText) : r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
     <td class="num" data-label="Zugesagt">${fmt(r.summe)}${extra}</td>
-    <td class="num${offen>0?" offen":""}" data-label="Noch offen">${fmt(offen)}</td>
+    <td class="num${offen>0?" offen":""}" data-label="Noch offen">${fmt(r.offenEinheit ? Math.ceil(offen/r.offenEinheit) : offen)}</td>
     <td class="st"><div class="bar ${p>=100?"full":""}" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100" aria-label="${esc(r.key)}"><i style="width:${p}%"></i></div>
         <div style="margin-top:4px">${tag} <span class="muted">${p} %</span></div></td>
   </tr>`;
