@@ -255,7 +255,7 @@
         <div><b>Rückmeldung bis Fr., 27.11.2026</b><br><span class="muted">bei Ingo Naumann (0172 7825933)</span></div>
         <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen und Schokofrüchte:</b> direkt am 22.12.2026 · <b>alles andere:</b> einen Tag vorher, am 21.12.2026</span></div>
       </div>
-      <p class="lead">Die Kinder unserer Schule sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Getränken und Speisen erhalten. Dafür bitten wir alle Klassen um entsprechende Beiträge. Außerdem werden Eltern gesucht, die Aktivitäten an verschiedenen Stationen/Ständen anbieten. Hier sehen Sie, was insgesamt gebraucht wird und was aus den Klassen bereits zugesagt wurde:</p>
+      <p class="lead">Die Kinder unserer Schule sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Getränken und Speisen erhalten. Dafür bitten wir alle Klassen um entsprechende Beiträge. Außerdem werden Eltern und Großeltern gesucht, die Aktivitäten an verschiedenen Stationen/Ständen anbieten. Hier sehen Sie, was insgesamt gebraucht wird und was aus den Klassen bereits zugesagt wurde:</p>
 
       <div class="stats" id="stats"></div>
     </section>
@@ -288,7 +288,7 @@
     <section id="kontakt">
       <h2>Rückmeldung geben</h2>
       <div class="contact">
-        <p style="margin-top:0">Sie können etwas beisteuern, einen Stand betreuen oder ein Angebot übernehmen? Auch kleine Zeitfenster (z. B. eine Stunde) helfen sehr. Auch Großeltern sind herzlich willkommen!</p>
+        <p style="margin-top:0">Sie können etwas beisteuern, einen Stand betreuen und ein Angebot übernehmen? Auch kleine Zeitfenster (z. B. eine Stunde) helfen sehr. Auch Großeltern sind herzlich willkommen!</p>
         <p style="margin-bottom:0"><b>Ingo Naumann</b></p>
         <a class="btn" href="tel:+491727825933">Anrufen: 0172 7825933</a>
         <a class="btn" href="https://wa.me/491727825933" target="_blank" rel="noopener">Per WhatsApp schreiben</a>
@@ -313,7 +313,7 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "24.11.2026, 11:07 Uhr";
+const STAND = "24.11.2026, 11:37 Uhr";
 
 const KINDER = 320;   // Anzahl Kinder an der Schule
 
@@ -325,13 +325,14 @@ const KINDER = 320;   // Anzahl Kinder an der Schule
    abgabe   = Abgabetermin (Standard: 21.12.; Kuchen 22.12.; null = entfällt)
    ANNAHMEN: Die Richtwerte sind Schätzungen und bitte anpassen! */
 const BEDARF = [
-  { key:"Betreuung Stationen/Stände", einheit:"Eltern|Eltern", mal:true, soll:4, abgabe:null },
+  { key:"Betreuung Stationen/Stände", einheit:"(Groß-)Eltern|(Groß-)Eltern", mal:true, soll:4, abgabe:null },
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
   { key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
   { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
   { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160, extra:"+ 3 Abpackungen Bratwürste" },
   { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
   { key:"Servietten",        einheit:"Stück|Stück",       soll:350 },
+  { key:"Grillbriketts",     einheit:"kg|kg",             soll:15 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Senf",              einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:15, abgabe:"22.12." },
@@ -340,7 +341,7 @@ const BEDARF = [
   { key:"Kakaopulver",       einheit:"Packung 400/500g|Packungen 400/500g", soll:2 },
   { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
   { key:"Pappteller",        einheit:"Stück|Stück",       soll:350 },
-  { key:"Betreuung Bastelstation", einheit:"Eltern|Eltern", mal:true, soll:3, abgabe:null },
+  { key:"Betreuung Bastelstation", einheit:"(Groß-)Eltern|(Groß-)Eltern", mal:true, soll:3, abgabe:null },
   { key:"Betreuung Kuchenstand", einheit:"Eltern|Eltern", mal:true, soll:1, abgabe:null },
   { key:"Glühweinkocher",    einheit:"Gerät|Geräte",      soll:1 },
   { key:"Schokofrüchte",     einheit:"Portion|Portionen", soll:null, abgabe:"22.12." },
