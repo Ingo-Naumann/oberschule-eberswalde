@@ -199,7 +199,7 @@
     .tablewrap{overflow:visible}
     table,tbody,tr,td{display:block;width:100%;min-width:0}
     thead{display:none}
-    tr{display:grid;grid-template-columns:repeat(3,1fr);column-gap:8px;border:1px solid var(--green-line);border-radius:var(--radius);padding:9px 12px 10px;margin-bottom:8px;background:#fff}
+    tr{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);column-gap:8px;border:1px solid var(--green-line);border-radius:var(--radius);padding:9px 12px 10px;margin-bottom:8px;background:#fff}
     td{border:0;padding:0;line-height:1.3}
     td.item{grid-column:1/-1;font-size:16px;padding-bottom:5px}
     td.item small{margin-top:1px;line-height:1.25}
@@ -253,7 +253,7 @@
         <div><b>Dienstag, 22.12.2026</b><br><span class="muted">innerhalb der regulären Schulzeit</span></div>
         <div><b>8:00 – 13:00 Uhr</b><br><span class="muted">für alle Schülerinnen und Schüler der Klassen 7 bis 10</span></div>
         <div><b>Rückmeldung bis Fr., 27.11.2026</b><br><span class="muted">bei Ingo Naumann (0172 7825933)</span></div>
-        <div><b>Abgabe der Spenden</b><br><span class="muted"><b>Kuchen und Schokofrüchte:</b> direkt am 22.12.2026 · <b>alles andere:</b> bis spätestens 21.12.2026</span></div>
+        <div><b>Abgabe der Spenden bis spätestens 21.12.2026</b><br><span class="muted">im Sekretariat der Schule</span></div>
       </div>
       <p class="lead">Die Kinder unserer Schule sollen auf dem Weihnachtsmarkt ein kostenloses Angebot an Getränken und Speisen erhalten. Dafür bitten wir alle Klassen um entsprechende Beiträge. Außerdem werden Eltern und Großeltern gesucht, die Aktivitäten an verschiedenen Stationen/Ständen anbieten. Hier sehen Sie, was insgesamt gebraucht wird und was aus den Klassen bereits zugesagt wurde:</p>
 
@@ -262,7 +262,7 @@
 
     <section id="bedarf">
       <h2>Was wird insgesamt gebraucht?</h2>
-      <p class="muted" style="margin:0">Benötigt = Gesamtbedarf für unsere 320 Kinder (Richtwerte), Zugesagt = bisher aus den Klassen angeboten.</p>
+      <p class="muted" style="margin:0">Benötigt = Gesamtbedarf für unsere 317 Kinder (Richtwerte), Zugesagt = bisher aus den Klassen angeboten.</p>
       <div class="tablewrap">
         <table>
           <thead>
@@ -313,9 +313,10 @@
    ===================================================================== */
 
 // Stand der Liste (Datum und Uhrzeit bei Änderungen anpassen)
-const STAND = "24.11.2026, 19:23 Uhr";
+const STAND = "26.11.2026, 10:03 Uhr";
 
-const KINDER = 320;   // Anzahl Kinder an der Schule
+const FAMILIEN = 49;  // Familien, die sich bisher beteiligt haben
+const KINDER = 317;   // Anzahl Kinder an der Schule
 
 /* BEDARF: Was wird gebraucht?
    key      = Kurzname, wird in den Zusagen verwendet
@@ -325,22 +326,25 @@ const KINDER = 320;   // Anzahl Kinder an der Schule
    abgabe   = Abgabetermin (Standard: 21.12.; Kuchen 22.12.; null = entfällt)
    ANNAHMEN: Die Richtwerte sind Schätzungen und bitte anpassen! */
 const BEDARF = [
-  { key:"Betreuung Stationen/Stände", einheit:"(Groß-)Eltern|(Groß-)Eltern", mal:true, soll:4, abgabe:null },
+  { key:"Betreuung Stationen/Stände", einheit:"(Groß-)Eltern|(Groß-)Eltern", mal:true, soll:4, nullAus:true, abgabe:null },
   { key:"Schreibmaterialien für das Glücksrad", einheit:"", soll:null, regel:"Bleistifte, Radiergummis, Buntstifte als kleine Preise" },
   { key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", einheit:"Dose/Tüte|Dosen/Tüten", soll:null },
+  { key:"Mandeln",          einheit:"Packung (je 200g)|Packungen (je 200g)", soll:10, regel:"für gebrannte Mandeln" },
   { key:"Bratwürste (Schwein)", einheit:"Stück|Stück",    soll:160 },
   { key:"Bratwürste (Geflügel)",  einheit:"Stück|Stück",       soll:160 },
-  { key:"Servietten",        einheit:"Stück|Stück",       soll:350 },
   { key:"Ketchup",           einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Senf",              einheit:"Quetschflasche|Quetschflaschen",  soll:5 },
   { key:"Kuchen",            einheit:"Kuchen|Kuchen",     soll:15, abgabe:"22.12." },
   { key:"Waffelteig",        einheit:"Liter|Liter",       soll:30 },
-  { key:"Kinderpunsch",      einheit:"Flasche|Flaschen",  soll:25 },
+  { key:"Kinderpunsch",      einheit:"Flasche (je 1 Liter)|Flaschen (je 1 Liter)",  soll:25 },
   { key:"Milch",             einheit:"Liter|Liter",       soll:16, regel:"für Kakao" },
-  { key:"Kakaopulver",       einheit:"Packung 400/500g|Packungen 400/500g", soll:2 },
+  { key:"Kakaopulver",       einheit:"Packung (je 400/500g)|Packungen (je 400/500g)", soll:2 },
   { key:"Pappbecher",        einheit:"Stück|Stück",       soll:350 },
   { key:"Pappteller",        einheit:"Stück|Stück",       soll:350 },
-  { key:"Betreuung Bastelstation", einheit:"(Groß-)Eltern|(Groß-)Eltern", mal:true, soll:3, abgabe:null },
+  { key:"Servietten",        einheit:"Stück|Stück",       soll:350 },
+  { key:"Holzkohlebriketts", einheit:"kg|kg",            soll:8 },
+  { key:"Betreuung Bastelstation", einheit:"Eltern|Eltern", mal:true, soll:2, abgabe:null },
+  { key:"Betreuung Grillstation", einheit:"Eltern|Eltern", mal:true, soll:1, abgabe:null },
   { key:"Betreuung Kuchenstand", einheit:"Eltern|Eltern", mal:true, soll:1, abgabe:null },
   { key:"Glühweinkocher",    einheit:"Gerät|Geräte",      soll:1 },
   { key:"Schokofrüchte",     einheit:"Portion|Portionen", soll:null, abgabe:"22.12." },
@@ -364,12 +368,14 @@ const ZUSAGEN = [
   { klasse:"7a",  key:"Bratwürste (Schwein)",   menge:10 },
   { klasse:"7a",  key:"Kinderpunsch",           menge:10 },   // 5 + 5
   { klasse:"7a",  key:"Servietten",             menge:235 },
+  { klasse:"7a",  key:"Holzkohlebriketts",      menge:4, kg:true },
   { klasse:"7a",  key:"Pappbecher",             menge:120 },
   { klasse:"7a",  key:"Schreibmaterialien für das Glücksrad", menge:null, stumm:true, anzeige:"1× Preise für das Glücksrad" },
 
   { klasse:"7b",  key:"Ketchup",                menge:1 },
   { klasse:"7b",  key:"Senf",                   menge:1 },
   { klasse:"7b",  key:"Bratwürste (Schwein)",   menge:40 },   // 20 + 20 (zweite Familie)
+  { klasse:"7b",  key:"Bratwürste (Geflügel)",   menge:18 },
   { klasse:"7b",  key:"Kinderpunsch",           menge:2 },
   { klasse:"7b",  key:"Milch",                  menge:12 },
   { klasse:"7b",  key:"Kakaopulver",            menge:2 },
@@ -401,11 +407,14 @@ const ZUSAGEN = [
   { klasse:"9a",  key:"Bratwürste (Geflügel)",  menge:12 },
   { klasse:"9a",  key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"2× Plätzchen", zusagen:2 },
   { klasse:"9b",  key:"Kuchen",                 menge:3 },
+  { klasse:"9b",  key:"Servietten",             menge:100 },
   { klasse:"9c",  key:"Pappteller",             menge:350 },
   { klasse:"9c",  key:"Pappbecher",             menge:350 },
 
   { klasse:"10a", key:"Betreuung Bastelstation",  menge:1 },
   { klasse:"10a", key:"Kuchen",                 menge:1 },
+  { klasse:"10a", key:"Holzkohlebriketts",      menge:4, kg:true },
+  { klasse:"10a", key:"Betreuung Grillstation",  menge:1 },
   { klasse:"10a", key:"Kinderpunsch",           menge:3 },
   { klasse:"10a", key:"Betreuung Kuchenstand",  menge:1 },
   { klasse:"10a", key:"Bratwürste (Geflügel)",   menge:36 },
@@ -415,6 +424,8 @@ const ZUSAGEN = [
   { klasse:"10b", key:"Waffelteig",             menge:30 },
   { klasse:"10b", key:"Schokofrüchte",          menge:null, stumm:true },
   { klasse:"10b", key:"Pappbecher",             menge:null, anzeige:"Pappbecher/-teller", auch:["Pappteller"] },
+  { klasse:"10b", key:"Bratwürste (Geflügel)",   menge:12, notiz:"2 Packungen" },
+  { klasse:"10b", key:"Servietten",             menge:100, notiz:"2 Packungen" },
 
   { klasse:"10c", key:"Kinderpunsch",           menge:5 },
   { klasse:"10c", key:"Weihnachtsgebäck (Plätzchen, Lebkuchen usw.)", menge:null, stumm:true, anzeige:"3× Lebkuchen", zusagen:3 },
@@ -435,53 +446,55 @@ const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&
 // Je Posten summieren
 const rows = BEDARF.map(b=>{
   const z = ZUSAGEN.filter(x=>x.key===b.key || (x.auch||[]).includes(b.key));
-  const summe = z.reduce((s,x)=>s+(x.menge||0),0);
+  const summe = b.gedeckt ? b.soll : z.reduce((s,x)=>s+(x.menge||0),0);
   const ohneMenge = z.filter(x=>x.menge==null).length;
-  return {...b, z, summe, ohneMenge, klassen:[...new Set(z.map(x=>x.klasse))]};
+  return {...b, z, summe, eff: b.voll ? Math.max(b.soll,summe) : summe, ohneMenge, klassen:[...new Set(z.map(x=>x.klasse))]};
 });
 
 // Kennzahlen
 const mitSoll = rows.filter(r=>r.soll!=null);
-const gedeckt = mitSoll.filter(r=>r.summe>=r.soll).length;
+const gedeckt = mitSoll.filter(r=>r.eff>=r.soll).length;
 const klassenMitZusage = new Set(ZUSAGEN.map(z=>z.klasse).filter(Boolean)).size;
 const alleKlassen = JAHRGAENGE.length*BUCHSTABEN.length;
 const pct = mitSoll.length
-  ? Math.round(mitSoll.reduce((s,r)=>s+Math.min(r.summe,r.soll)/r.soll,0)/mitSoll.length*100) : 0;
+  ? Math.round(mitSoll.reduce((s,r)=>s+Math.min(r.eff,r.soll)/r.soll,0)/mitSoll.length*100) : 0;
 
 document.getElementById("stats").innerHTML = `
   <div class="stat"><div class="n">${klassenMitZusage} von ${alleKlassen}</div><div class="l">Klassen haben schon etwas zugesagt</div></div>
   <div class="stat"><div class="n">${gedeckt} von ${mitSoll.length}</div><div class="l">Posten vollständig gedeckt</div></div>
   <div class="stat"><div class="n">${pct} %</div><div class="l">des Gesamtbedarfs durch Zusagen abgedeckt</div></div>
+  <div class="stat"><div class="n">${FAMILIEN}</div><div class="l">Familien haben sich bisher beteiligt</div></div>
   <div class="stat"><div class="n">${KINDER}</div><div class="l">Kinder an unserer Schule</div></div>`;
 
 // Bedarf-Tabelle
 document.getElementById("bedarf-body").innerHTML = rows.map(r=>{
-  const eu = n => r.einheit ? " "+esc(unit(r.einheit,n)) : "";
-  const ab = r.abgabe===null ? "" : `Abgabe: ${r.abgabe||"21.12."}`;
+  const eu = n => r.einheit ? " "+esc(unit(r.einheit,n)) : "";
+  const ab = "";
   const sub = (r.regel||ab) ? `<small>${[r.regel?esc(r.regel):"", ab].filter(Boolean).join(" · ")}</small>` : "";
   if(r.soll==null){
     const nz = r.z.reduce((a,x)=>a+(x.zusagen||1),0);
     const t = nz
       ? `<span class="tag part">${nz} Zusage${nz>1?"n":""}</span>`
-      : "";
-    return `<tr><td class="item">${esc(r.key)}${sub}</td><td class="num" data-label="Benötigt">keine Vorgabe</td>
+      : (r.status0 ? `<span class="tag open">noch offen</span> <span class="muted">0 %</span>` : "");
+    return `<tr><td class="item">${esc(r.key)}${sub}</td><td class="num${r.ohneVorgabeText===false?" hide-m":""}" data-label="Benötigt">${r.ohneVorgabeText===false?"":"keine Vorgabe"}</td>
       <td class="num${r.summe?"":" hide-m"}" data-label="Zugesagt">${r.summe?fmt(r.summe)+eu(r.summe):""}</td><td class="num hide-m"></td>
       <td class="st${t?"":" hide-m"}">${t}</td></tr>`;
   }
-  const offen = Math.max(r.soll-r.summe,0);
-  const p = Math.min(100,Math.round(r.summe/r.soll*100));
+  const offen = Math.max(r.soll-r.eff,0);
+  const pReal = Math.round(r.eff/r.soll*100);
+  const p = Math.min(100,pReal);
   let tag;
-  if(r.summe>=r.soll) tag = `<span class="tag done">gedeckt</span>`;
+  if(r.eff>=r.soll) tag = `<span class="tag done">gedeckt</span>`;
   else if(r.summe>0 || r.ohneMenge) tag = `<span class="tag part">teilweise</span>`;
   else tag = `<span class="tag open">noch offen</span>`;
-  const extra = r.extra ? `<small>${esc(r.extra)}</small>` : (r.ohneMenge ? `<small>+ ${r.ohneMenge} Zusage${r.ohneMenge>1?"n":""} ohne Mengenangabe</small>` : "");
+  const extra = r.voll ? `<small>${esc(r.voll)}</small>` : r.extra ? `<small>${esc(r.extra)}</small>` : (r.ohneMenge ? `<small>+ ${r.ohneMenge} Zusage${r.ohneMenge>1?"n":""} ohne Mengenangabe</small>` : "");
   return `<tr>
     <td class="item">${esc(r.key)}${sub}</td>
-    <td class="num" data-label="Benötigt">${r.sollText ? esc(r.sollText) : r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
-    <td class="num" data-label="Zugesagt">${fmt(r.summe)}${extra}</td>
+    <td class="num" data-label="Benötigt">${r.sollText ? esc(r.sollText)+(r.sollSub?`<small>${esc(r.sollSub)}</small>`:"") : r.mal ? fmt(r.soll)+"x "+esc(unit(r.einheit,r.soll)) : fmt(r.soll)+eu(r.soll)}</td>
+    <td class="num${r.nullAus&&!r.summe?" hide-m":""}" data-label="Zugesagt">${r.nullAus&&!r.summe ? "" : fmt(r.summe)}${extra}</td>
     <td class="num${offen>0?" offen":""}" data-label="Noch offen">${fmt(r.offenEinheit ? Math.ceil(offen/r.offenEinheit) : offen)}</td>
     <td class="st"><div class="bar ${p>=100?"full":""}" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100" aria-label="${esc(r.key)}"><i style="width:${p}%"></i></div>
-        <div style="margin-top:4px">${tag} <span class="muted">${p} %</span></div></td>
+        <div style="margin-top:4px">${tag} <span class="muted">${pReal} %</span></div></td>
   </tr>`;
 }).join("");
 const anyOhne = ZUSAGEN.some(z=>z.menge==null && rows.find(r=>r.key===z.key && r.soll!=null));
@@ -497,7 +510,7 @@ document.getElementById("klassen-body").innerHTML = JAHRGAENGE.map(j=>{
     if(!z.length) return `<div class="card none"><h4>${k} <span>noch keine Zusage</span></h4><div class="empty">Noch offen – wir freuen uns über Rückmeldungen!</div></div>`;
     const li = z.map(x=>{
       const bed = BEDARF.find(r=>r.key===x.key)||{};
-      const mm = x.menge!=null ? `<b>${fmt(x.menge)}×</b> ` : "";
+      const mm = x.menge!=null ? (x.kg ? `<b>${fmt(x.menge)} kg</b> ` : `<b>${fmt(x.menge)}×</b> `) : "";
       const n = x.notiz ? ` <em>(${esc(x.notiz)})</em>` : (x.menge==null&&!x.stumm?` <em>(Menge offen)</em>`:"");
       const name = esc(x.anzeige||x.key).replace(/^(\d+×)\s*/, "<b>$1</b> ");
       return `<li>${mm}${name}${n}</li>`;
